@@ -1,33 +1,33 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import screens.SplashScreen;
 
-public class Kingdomino extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+public class Kingdomino extends Game {
+	public static final String gameName = "Kingdomino";
+	public static final int width = 1920;
+	public static final int height = 1080;
+	private boolean paused;
+
+
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		this.setScreen(new SplashScreen(this));
 	}
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+	/*
+	Getters and Setters
+	  */
+	public boolean isPaused() {
+		return paused;
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
 	}
+
 }
