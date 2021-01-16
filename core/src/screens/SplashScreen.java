@@ -1,13 +1,20 @@
 package screens;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Kingdomino;
 
 public class SplashScreen extends AbstractScreen{
     private Texture splashImg;
-    public SplashScreen(Kingdomino game) {
+    public SplashScreen(final Kingdomino game) {
         super(game);
         init();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                game.setScreen(new MenuScreen(game));
+            }
+        }, 2);
     }
 
     private void init() {
