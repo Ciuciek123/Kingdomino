@@ -11,7 +11,7 @@ public class SplashScreen extends AbstractScreen{
     }
 
     private void init() {
-        splashImg = new Texture("menu.jpg");
+        splashImg = new Texture("splash.jpg");
     }
 
     @Override
