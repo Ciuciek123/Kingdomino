@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = Kingdomino.gameName;
 		config.width = Kingdomino.width;
 		config.height = Kingdomino.height;
+		config.fullscreen = true;
 
 		new LwjglApplication(new Kingdomino(), config);
 	}
