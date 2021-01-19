@@ -9,12 +9,14 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Kingdomino;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+//import domino.dominoTexture;
 
 public class MenuScreen extends AbstractScreen{
     private Texture skinButton;
     private Button exitButton;
     private Texture menuImg;
     private TextureRegion exitButtonTexture;
+//    dominoTexture domino = new dominoTexture();
     public MenuScreen(Kingdomino game) {
         super(game);
         init();
@@ -57,6 +59,7 @@ public class MenuScreen extends AbstractScreen{
         spriteBatch.begin();
         spriteBatch.draw(menuImg,0,0);
         spriteBatch.draw(exitButtonTexture, 860,460);
+//        spriteBatch.draw(domino.getDominoTexture(0),500,500 );
         spriteBatch.end();
     }
 }
