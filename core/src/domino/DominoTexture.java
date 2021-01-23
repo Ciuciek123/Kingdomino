@@ -3,18 +3,16 @@ package domino;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class dominoTexture {
+public class DominoTexture {
     private Texture skinDomino;
     private TextureRegion[] dominoTexture;
-    public dominoTexture(){
+    public DominoTexture(){
         init();
     }
 
     private void init() {
         skinDomino = new Texture("front.jpg");
         dominoTexture = new TextureRegion[48];
-//        dominoTexture[0] = new TextureRegion(skinDomino, 1, 1, 255, 127);
-//        dominoTexture[1] = new TextureRegion(skinDomino, 255, 1, 255, 127);
         int temp =0;
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 8; j++) {
