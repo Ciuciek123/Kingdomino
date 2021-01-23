@@ -10,14 +10,18 @@ enum AreaType{
 }
 
 public class Domino {
-    private final AreaType[] field;
-    public Domino(AreaType type1, AreaType type2){
-        field = new AreaType[2];
-        field[0]=type1;
-        field[1]=type2;
+    private final AreaType field;
+    private final int crownCount;
+    public Domino(AreaType type, int crown){
+        field=type;
+        crownCount = crown;
     }
 
-    public AreaType[] getField() {
+    public AreaType getField() {
         return field;
+    }
+
+    public int getCrownCount() {
+        return crownCount;
     }
 }
