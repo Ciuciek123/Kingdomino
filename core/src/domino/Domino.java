@@ -1,14 +1,5 @@
 package domino;
 
-enum AreaType{
-    FOREST,
-    FARMLAND,
-    LAKE,
-    MEADOW,
-    SWAMP,
-    MINE
-}
-
 public class Domino {
     private final AreaType field;
     private final int crownCount;

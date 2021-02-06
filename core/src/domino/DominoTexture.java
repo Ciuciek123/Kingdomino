@@ -3,7 +3,9 @@ package domino;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class DominoTexture {
+import java.awt.*;
+
+public class DominoTexture extends Rectangle {
     private Texture skinDomino;
     private TextureRegion[] dominoTexture;
     public DominoTexture(){

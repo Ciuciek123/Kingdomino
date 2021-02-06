@@ -13,6 +13,7 @@ public class PlayScreen extends AbstractScreen{
     private Button exitButton;
     private Texture skinExitButton;
     private TextureRegion exitButtonTexture;
+    private Texture area;
     public PlayScreen(Kingdomino game) {
         super(game);
         init();
@@ -47,6 +48,7 @@ public class PlayScreen extends AbstractScreen{
     private void init() {
         skinExitButton = new Texture("exitButton.png");
         exitButtonTexture = new TextureRegion(skinExitButton, 1,1,256,64);
+        area = new Texture("playArea.png");
     }
 
     @Override
@@ -54,6 +56,7 @@ public class PlayScreen extends AbstractScreen{
         super.render(delta);
         spriteBatch.begin();
         spriteBatch.draw(exitButtonTexture,1600,1000);
+        spriteBatch.draw(area,1,1);
         spriteBatch.end();
     }
 }
