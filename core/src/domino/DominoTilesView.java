@@ -27,5 +27,9 @@ public class DominoTilesView {
                 temp++;
             }
         }
+        for(int i=0;i<48;i++){
+            domino[i].x=1200;
+            domino[i].y=1;
+        }
     }
 }
