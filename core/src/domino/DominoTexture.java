@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class DominoTexture extends Rectangle {
     private TextureRegion texture;
-    DominoTexture(TextureRegion texture){
+    public DominoTexture(TextureRegion texture){
         this.texture = texture;
     }
 
