@@ -1,6 +1,7 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -8,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Kingdomino;
-import domino.DominoTexture;
+import domino.DominoTilesView;
 import playArea.RandGenerator;
 
 public class PlayScreen extends AbstractScreen{
     private RandGenerator dominoTiles = new RandGenerator();
     private Button exitButton;
-    private DominoTexture dominoView;
+    private DominoTilesView dominoView;
     private int round = 0 ;
     private Texture skinExitButton;
     private TextureRegion exitButtonTexture;
@@ -52,15 +53,14 @@ public class PlayScreen extends AbstractScreen{
     }
     private void chooseArea(){
         dominoTiles.randomizeChooseArea(round*4);
-        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(0)),1400,600);
-        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(1)),1400,450);
-        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(2)),1400,300);
-        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(3)),1400,150);
+        spriteBatch.draw(dominoView.domino[dominoTiles.getRandTiles(0)].getTexture(),1400,600);
+        spriteBatch.draw(dominoView.domino[dominoTiles.getRandTiles(1)].getTexture(),1400,450);
+        spriteBatch.draw(dominoView.domino[dominoTiles.getRandTiles(2)].getTexture(),1400,300);
+        spriteBatch.draw(dominoView.domino[dominoTiles.getRandTiles(3)].getTexture(),1400,150);
         dominoTiles.clearHelper();
     }
     private void init() {
-       // dominoTiles.randomizeChooseArea(round*4);
-        dominoView = new DominoTexture();
+        dominoView = new DominoTilesView();
         skinExitButton = new Texture("exitButton.png");
         exitButtonTexture = new TextureRegion(skinExitButton, 1,1,256,64);
         area = new Texture("playArea.png");
