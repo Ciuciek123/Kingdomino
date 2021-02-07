@@ -8,9 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Kingdomino;
+import domino.DominoTexture;
+import playArea.RandGenerator;
 
 public class PlayScreen extends AbstractScreen{
+    private RandGenerator dominoTiles = new RandGenerator();
     private Button exitButton;
+    private DominoTexture dominoView;
+    private int round = 0 ;
     private Texture skinExitButton;
     private TextureRegion exitButtonTexture;
     private Texture area;
@@ -19,6 +24,7 @@ public class PlayScreen extends AbstractScreen{
         init();
         initExitButton();
     }
+
 
     private void initExitButton() {
         exitButton = new Button(new Button.ButtonStyle());
@@ -44,8 +50,17 @@ public class PlayScreen extends AbstractScreen{
             }
         });
     }
-
+    private void chooseArea(){
+        dominoTiles.randomizeChooseArea(round*4);
+        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(0)),1400,600);
+        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(1)),1400,450);
+        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(2)),1400,300);
+        spriteBatch.draw(dominoView.getDominoTexture(dominoTiles.getRandTiles(3)),1400,150);
+        dominoTiles.clearHelper();
+    }
     private void init() {
+       // dominoTiles.randomizeChooseArea(round*4);
+        dominoView = new DominoTexture();
         skinExitButton = new Texture("exitButton.png");
         exitButtonTexture = new TextureRegion(skinExitButton, 1,1,256,64);
         area = new Texture("playArea.png");
@@ -56,6 +71,7 @@ public class PlayScreen extends AbstractScreen{
         super.render(delta);
         spriteBatch.begin();
         spriteBatch.draw(exitButtonTexture,1600,1000);
+        chooseArea();
         spriteBatch.draw(area,1,1);
         spriteBatch.end();
     }
