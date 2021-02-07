@@ -161,8 +161,11 @@ public class DominoTiles {
         dominoTiles[47][0] = new Domino(AreaType.FARMLAND, 0);
         dominoTiles[47][1] = new Domino(AreaType.MINE, 3);
     }
-    public void setIsChoose(Token p,int index){
-        if(isChoose[index]!=Token.P1&&isChoose[index]!=Token.P2)
+    public boolean setIsChoose(Token p,int index){
+        if(isChoose[index]!=Token.P1&&isChoose[index]!=Token.P2){
         isChoose[index]=p;
+        return true;
+        }
+        return false;
     }
 }

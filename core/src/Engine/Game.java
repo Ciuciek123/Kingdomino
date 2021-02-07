@@ -13,7 +13,7 @@ public class Game {
     }
 
     public void setCheckCount() {
-        if(checkCount<4)
+        if(checkCount<5)
             checkCount++;
         else{
             checkCount=0;

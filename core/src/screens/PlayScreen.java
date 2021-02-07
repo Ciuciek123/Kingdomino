@@ -20,9 +20,11 @@ public class PlayScreen extends AbstractScreen{
     private RandGenerator dominoTiles = new RandGenerator();
     private Button exitButton;
     private Button chooseButton[];
+    private Button nextRoundButton;
+    private TextureRegion nextRoundButtonTexture;
     private DominoTilesView dominoView;
     private DominoTiles oneDomino;
-    private Texture skinExitButton;
+    private Texture skinButton;
     private TextureRegion exitButtonTexture;
     private Texture area;
     private Game game;
@@ -31,6 +33,26 @@ public class PlayScreen extends AbstractScreen{
         init();
         initExitButton();
         initChooseButtons();
+        initNextRoundButton();
+    }
+
+    private void initNextRoundButton() {
+        nextRoundButton = new Button(new Button.ButtonStyle());
+        nextRoundButton.setWidth(256);
+        nextRoundButton.setHeight(64);
+        nextRoundButton.setX(1000);
+        nextRoundButton.setY(1000);
+        nextRoundButton.setDebug(true);
+        scene.addActor(nextRoundButton);
+        nextRoundButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(game.getRound()<11) {
+                    game.nextRound();
+                    dominoTiles.clearHelper();
+                }
+            };
+        });
     }
 
     private void initChooseButtons() {
@@ -47,15 +69,14 @@ public class PlayScreen extends AbstractScreen{
             chooseButton[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    oneDomino.setIsChoose(game.getPlayerToken(), dominoTiles.getRandTiles(finalI));
+                    if(oneDomino.setIsChoose(game.getPlayerToken(), dominoTiles.getRandTiles(finalI))){
                     game.changePlayer();
+                    game.setCheckCount();
+                    }
                 };
             });
         }
     }
-        
-
-
 
     private void initExitButton() {
         exitButton = new Button(new Button.ButtonStyle());
@@ -69,7 +90,7 @@ public class PlayScreen extends AbstractScreen{
             @Override
             public boolean handle(Event event) {
                 if(exitButton.isPressed()) {
-                    exitButtonTexture = new TextureRegion(skinExitButton, 1, 64, 256, 64);
+                    exitButtonTexture = new TextureRegion(skinButton, 1, 64, 256, 64);
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
@@ -81,6 +102,7 @@ public class PlayScreen extends AbstractScreen{
             }
         });
     }
+
     private void chooseArea(){
         if(game.getCheckCount()==0)
         dominoTiles.randomizeChooseArea(game.getRound()*4);
@@ -94,16 +116,17 @@ public class PlayScreen extends AbstractScreen{
             if(oneDomino.getIsChoose(dominoTiles.getRandTiles(i)) == Token.P2)
                 spriteBatch.draw(game.getPlayer2Texture(),1400,600-i*150);
         }
-        if(game.getCheckCount()==3)
-        dominoTiles.clearHelper();
+//        if(game.getCheckCount()==5)
+//        dominoTiles.clearHelper();
     }
     private void init() {
 
         game = new Game();
         oneDomino = new DominoTiles();
         dominoView = new DominoTilesView();
-        skinExitButton = new Texture("exitButton.png");
-        exitButtonTexture = new TextureRegion(skinExitButton, 1,1,256,64);
+        skinButton = new Texture("exitButton.png");
+        exitButtonTexture = new TextureRegion(skinButton, 1,1,256,64);
+        nextRoundButtonTexture = new TextureRegion(skinButton, 1,1,256,64);
         area = new Texture("playArea.png");
     }
 
@@ -112,6 +135,7 @@ public class PlayScreen extends AbstractScreen{
         super.render(delta);
         spriteBatch.begin();
         spriteBatch.draw(exitButtonTexture,1600,1000);
+        spriteBatch.draw(nextRoundButtonTexture,1000,1000);
         chooseArea();
         spriteBatch.draw(area,1,1);
         spriteBatch.end();
