@@ -47,7 +47,7 @@ public class PlayScreen extends AbstractScreen{
         nextRoundButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(game.getRound()<11) {
+                if(game.getRound()<11&&game.getCheckCount()==4) {
                     game.nextRound();
                     dominoTiles.clearHelper();
                 }
@@ -104,7 +104,6 @@ public class PlayScreen extends AbstractScreen{
     }
 
     private void chooseArea(){
-        if(game.getCheckCount()==0)
         dominoTiles.randomizeChooseArea(game.getRound()*4);
         spriteBatch.draw(dominoView.domino[dominoTiles.getRandTiles(0)].getTexture(),1400,600);
         spriteBatch.draw(dominoView.domino[dominoTiles.getRandTiles(1)].getTexture(),1400,450);

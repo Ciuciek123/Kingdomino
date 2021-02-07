@@ -10,15 +10,12 @@ public class Game {
 
     public void nextRound() {
         round++;
+        checkCount=0;
     }
 
     public void setCheckCount() {
         if(checkCount<5)
             checkCount++;
-        else{
-            checkCount=0;
-            nextRound();
-        }
     }
 
     private int checkCount=0;
