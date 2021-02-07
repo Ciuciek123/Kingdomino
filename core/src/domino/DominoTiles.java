@@ -1,9 +1,18 @@
 package domino;
 
+import Engine.Token;
+
 public class DominoTiles {
     private Domino[][] dominoTiles;
+    private Token isChoose[];
+
+    public Token getIsChoose(int index) {
+        return isChoose[index];
+    }
+
     public DominoTiles(){
         dominoTiles = new Domino[48][2];
+        isChoose = new Token[48];
         init();
     }
     private void init(){
@@ -152,5 +161,8 @@ public class DominoTiles {
         dominoTiles[47][0] = new Domino(AreaType.FARMLAND, 0);
         dominoTiles[47][1] = new Domino(AreaType.MINE, 3);
     }
-
+    public void setIsChoose(Token p,int index){
+        if(isChoose[index]!=Token.P1&&isChoose[index]!=Token.P2)
+        isChoose[index]=p;
+    }
 }

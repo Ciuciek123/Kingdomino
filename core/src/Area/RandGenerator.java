@@ -1,4 +1,4 @@
-package playArea;
+package Area;
 
 import java.util.ArrayList;
 import java.util.Collections;

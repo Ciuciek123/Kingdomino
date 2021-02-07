@@ -1,4 +1,4 @@
-package playArea;
+package Area;
 
 import domino.AreaType;
 import domino.Domino;
