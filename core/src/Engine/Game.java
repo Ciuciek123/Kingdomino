@@ -1,6 +1,8 @@
 package Engine;
 
 import com.badlogic.gdx.graphics.Texture;
+import domino.Direction;
+import domino.Domino;
 
 public class Game {
     private Player p1;
@@ -27,6 +29,12 @@ public class Game {
         return checkCount;
     }
 
+    public void setDomino(int x, int y, Domino domino1, Domino domino2, Direction direction){
+        if(playerToken==Token.P1)
+            p1. setDomino(x,y,domino1,domino2,direction);
+        else if(playerToken==Token.P2)
+            p2. setDomino(x,y,domino1,domino2,direction);
+    }
 
     public Game(){
         init();

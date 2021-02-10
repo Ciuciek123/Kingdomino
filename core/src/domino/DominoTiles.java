@@ -4,18 +4,25 @@ import Engine.Token;
 
 public class DominoTiles {
     private Domino[][] dominoTiles;
-    private Token isChoose[];
+    private Token whoHave[];
 
     public Token getIsChoose(int index) {
-        return isChoose[index];
+        return whoHave[index];
     }
 
     public DominoTiles(){
         dominoTiles = new Domino[48][2];
-        isChoose = new Token[48];
-        init();
+        whoHave = new Token[48];
+        initWhoHave();
+        initDomino();
     }
-    private void init(){
+
+    private void initWhoHave() {
+        for(int i=0;i<48;i++)
+            whoHave[i]=Token.NOBODY;
+    }
+
+    private void initDomino(){
         //Domino nr.1
         dominoTiles[0][0] = new Domino(AreaType.FARMLAND, 0);
         dominoTiles[0][1] = new Domino(AreaType.FARMLAND, 0);
@@ -162,8 +169,8 @@ public class DominoTiles {
         dominoTiles[47][1] = new Domino(AreaType.MINE, 3);
     }
     public boolean setIsChoose(Token p,int index){
-        if(isChoose[index]!=Token.P1&&isChoose[index]!=Token.P2){
-        isChoose[index]=p;
+        if(whoHave[index]!=Token.P1&& whoHave[index]!=Token.P2){
+        whoHave[index]=p;
         return true;
         }
         return false;

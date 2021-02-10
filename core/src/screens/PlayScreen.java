@@ -17,7 +17,7 @@ import domino.DominoTilesView;
 import Area.RandGenerator;
 
 public class PlayScreen extends AbstractScreen{
-    private RandGenerator dominoTiles = new RandGenerator();
+    private RandGenerator generator = new RandGenerator();
     private Button exitButton;
     private Button chooseButton[];
     private Button nextRoundButton;
@@ -49,7 +49,8 @@ public class PlayScreen extends AbstractScreen{
             public void clicked(InputEvent event, float x, float y) {
                 if(game.getRound()<11&&game.getCheckCount()==4) {
                     game.nextRound();
-                    dominoTiles.clearHelper();
+                    generator.clearHelper();
+                    generator.randomizeChooseArea(game.getRound()*4);
                 }
             };
         });
@@ -69,11 +70,11 @@ public class PlayScreen extends AbstractScreen{
             chooseButton[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(oneDomino.setIsChoose(game.getPlayerToken(), dominoTiles.getRandTiles(finalI))){
+                    if(oneDomino.setIsChoose(game.getPlayerToken(), generator.getRandTiles(finalI))){
                     game.changePlayer();
                     game.setCheckCount();
-                    dominoView.domino[dominoTiles.getRandTiles(finalI)].y=1;
-                    dominoView.domino[dominoTiles.getRandTiles(finalI)].x=1;
+                    dominoView.domino[generator.getRandTiles(finalI)].y=1;
+                    dominoView.domino[generator.getRandTiles(finalI)].x=1;
                     }
                 };
             });
@@ -106,19 +107,25 @@ public class PlayScreen extends AbstractScreen{
     }
 
     private void chooseArea(){
-        dominoTiles.randomizeChooseArea(game.getRound()*4);
         for (int i = 0; i <4; i++) {
-            if(oneDomino.getIsChoose(dominoTiles.getRandTiles(i)) != Token.P1&&oneDomino.getIsChoose(dominoTiles.getRandTiles(i)) != Token.P2)
-                dominoView.domino[dominoTiles.getRandTiles(i)].y=600-i*150;
-            spriteBatch.draw(dominoView.domino[dominoTiles.getRandTiles(i)].getTexture(),dominoView.domino[dominoTiles.getRandTiles(i)].x,dominoView.domino[dominoTiles.getRandTiles(i)].y);
-            if(oneDomino.getIsChoose(dominoTiles.getRandTiles(i)) == Token.P1)
+            if(oneDomino.getIsChoose(generator.getRandTiles(i)) != Token.P1&&oneDomino.getIsChoose(generator.getRandTiles(i)) != Token.P2)
+                dominoView.domino[generator.getRandTiles(i)].y=600-i*150;
+            spriteBatch.draw(dominoView.domino[generator.getRandTiles(i)].getTexture(),dominoView.domino[generator.getRandTiles(i)].x,dominoView.domino[generator.getRandTiles(i)].y);
+            if(oneDomino.getIsChoose(generator.getRandTiles(i)) == Token.P1)
                 spriteBatch.draw(game.getPlayer1Texture(),1200,600-i*150);
-            if(oneDomino.getIsChoose(dominoTiles.getRandTiles(i)) == Token.P2)
+            if(oneDomino.getIsChoose(generator.getRandTiles(i)) == Token.P2)
                 spriteBatch.draw(game.getPlayer2Texture(),1200,600-i*150);
         }
     }
-    private void init() {
 
+    private void drawPlayerArea(){
+        for(int row=0;row<7;row++)
+            for(int col=0;col<7;col++){
+
+            }
+    }
+
+    private void init() {
         game = new Game();
         oneDomino = new DominoTiles();
         dominoView = new DominoTilesView();
@@ -126,7 +133,7 @@ public class PlayScreen extends AbstractScreen{
         exitButtonTexture = new TextureRegion(skinButton, 1,1,256,64);
         nextRoundButtonTexture = new TextureRegion(skinButton, 1,1,256,64);
         area = new Texture("playArea.png");
-
+        generator.randomizeChooseArea(game.getRound()*4);
     }
 
     @Override

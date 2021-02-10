@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class DominoTilesView {
     private Texture skinDomino;
+    // TODO: Change this into private and add getter
     public DominoTexture[] domino;
 
     public DominoTilesView() {

@@ -1,5 +1,5 @@
 package Engine;
 
 public enum Token {
-    P1, P2
+    NOBODY,P1, P2
 }
