@@ -8,23 +8,31 @@ import domino.Domino;
 
 public class Player{
     private Texture playerImage;
-    int points = 0;
-    PlayArea playerArea = new PlayArea();
+    private int points = 0;
+    private PlayArea playerArea = new PlayArea();
+
     public Player() {
 
     }
+
     public void setTexture(String image){
         playerImage = new Texture(image);
+    }
+
+    public AreaType getField(int i,int j){
+        return playerArea.getField(i,j);
     }
 
     public Texture getPlayerImage() {
         return playerImage;
     }
 
+
+
     public void setDomino(int x, int y, Domino domino1, Domino domino2, Direction direction){
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.LEFT) {
             playerArea.setPlayerTable(x,y,domino1);
-            playerArea.setPlayerTable(x+1,y,domino2);
+            playerArea.setPlayerTable(x-1,y,domino2);
         }
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.DOWN) {
             playerArea.setPlayerTable(x,y,domino1);
@@ -32,7 +40,7 @@ public class Player{
         }
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.RIGHT) {
             playerArea.setPlayerTable(x,y,domino1);
-            playerArea.setPlayerTable(x-1,y,domino2);
+            playerArea.setPlayerTable(x+1,y,domino2);
         }
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.UP) {
             playerArea.setPlayerTable(x,y,domino1);

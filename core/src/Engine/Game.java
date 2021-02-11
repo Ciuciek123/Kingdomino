@@ -1,6 +1,7 @@
 package Engine;
 
 import com.badlogic.gdx.graphics.Texture;
+import domino.AreaType;
 import domino.Direction;
 import domino.Domino;
 
@@ -29,6 +30,14 @@ public class Game {
         return checkCount;
     }
 
+    public AreaType getField(int i, int j){
+        if(playerToken==Token.P1)
+            return p1.getField(i,j);
+        else if(playerToken==Token.P2)
+            return p2.getField(i,j);
+        return AreaType.BLANK;
+    }
+
     public void setDomino(int x, int y, Domino domino1, Domino domino2, Direction direction){
         if(playerToken==Token.P1)
             p1. setDomino(x,y,domino1,domino2,direction);
@@ -51,7 +60,13 @@ public class Game {
         p2.setTexture("Player2.png");
         playerToken = Token.P1;
     }
-
+    public Texture getPlayerTexture() {
+        if(playerToken==Token.P1)
+            return p1.getPlayerImage();
+        else if(playerToken==Token.P2)
+            return p2.getPlayerImage();
+        return p1.getPlayerImage();
+    }
     public Texture getPlayer1Texture() {
         return p1.getPlayerImage();
     }

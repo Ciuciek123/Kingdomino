@@ -4,7 +4,8 @@ import Engine.Token;
 
 public class DominoTiles {
     private Domino[][] dominoTiles;
-    private Token whoHave[];
+    private Token[] whoHave;
+    private Direction[] direction;
 
     public Token getIsChoose(int index) {
         return whoHave[index];
@@ -13,8 +14,34 @@ public class DominoTiles {
     public DominoTiles(){
         dominoTiles = new Domino[48][2];
         whoHave = new Token[48];
+        direction = new Direction[48];
+
         initWhoHave();
+        initDirection();
         initDomino();
+    }
+
+    private void initDirection() {
+        for(int i=0;i<48;i++)
+            direction[i]=Direction.RIGHT;
+    }
+    public Direction getDirection(int i){
+        return direction[i];
+    }
+
+    public Domino getDomino(int index, int side) {
+        return dominoTiles[index][side];
+    }
+
+    public void setDirection(int i) {
+        if(direction[i]==Direction.RIGHT)
+            direction[i]=Direction.DOWN;
+        else if(direction[i]==Direction.DOWN)
+            direction[i]=Direction.LEFT;
+        else if(direction[i]==Direction.LEFT)
+            direction[i]=Direction.UP;
+        else if(direction[i]==Direction.UP)
+            direction[i]=Direction.RIGHT;
     }
 
     private void initWhoHave() {

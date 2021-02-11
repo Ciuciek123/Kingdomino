@@ -3,6 +3,7 @@ package screens;
 import Engine.Game;
 import Engine.Token;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Kingdomino;
+import domino.AreaType;
 import domino.DominoTiles;
 import domino.DominoTilesView;
 import Area.RandGenerator;
@@ -28,6 +30,7 @@ public class PlayScreen extends AbstractScreen{
     private TextureRegion exitButtonTexture;
     private Texture area;
     private Game game;
+    private int actualyChoose;
     public PlayScreen(Kingdomino game) {
         super(game);
         init();
@@ -75,6 +78,7 @@ public class PlayScreen extends AbstractScreen{
                     game.setCheckCount();
                     dominoView.domino[generator.getRandTiles(finalI)].y=1;
                     dominoView.domino[generator.getRandTiles(finalI)].x=1;
+                    actualyChoose=generator.getRandTiles(finalI);
                     }
                 };
             });
@@ -121,7 +125,8 @@ public class PlayScreen extends AbstractScreen{
     private void drawPlayerArea(){
         for(int row=0;row<7;row++)
             for(int col=0;col<7;col++){
-
+                if(game.getField(row,col)== AreaType.PLAYER)
+                    spriteBatch.draw(game.getPlayerTexture(),row*127,col*127);
             }
     }
 
@@ -136,12 +141,35 @@ public class PlayScreen extends AbstractScreen{
         generator.randomizeChooseArea(game.getRound()*4);
     }
 
+
+    private void update(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
+            dominoView.domino[actualyChoose].y+=127;
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
+            dominoView.domino[actualyChoose].x-=127;
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S)){
+            dominoView.domino[actualyChoose].y-=127;
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D)){
+            dominoView.domino[actualyChoose].x+=127;
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            game.setDomino((dominoView.domino[actualyChoose].x-1)%127,(dominoView.domino[actualyChoose].y-1)%127, oneDomino.getDomino(actualyChoose,0), oneDomino.getDomino(actualyChoose,1), oneDomino.getDirection(actualyChoose));
+
+        }
+    }
+
+
     @Override
     public void render(float delta) {
         super.render(delta);
+        update();
         spriteBatch.begin();
         spriteBatch.draw(exitButtonTexture,1600,1000);
         spriteBatch.draw(nextRoundButtonTexture,1000,1000);
+        drawPlayerArea();
         chooseArea();
         spriteBatch.draw(area,1,1);
         spriteBatch.end();
