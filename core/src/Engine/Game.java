@@ -5,23 +5,41 @@ import domino.AreaType;
 import domino.Direction;
 import domino.Domino;
 
+import java.util.ArrayList;
+
 public class Game {
     private Player p1;
     private Player p2;
     private Token playerToken;
     private int round=0;
+    private Token[] queue;
+    private Token[] queueHelper;
+    private int checkCount=0;
+
+    public void setQueue(int index) {
+        queueHelper[index]=playerToken;
+    }
+    public Token getQueue(int index) {
+        return queue[index];
+    }
+
+
 
     public void nextRound() {
         round++;
         checkCount=0;
+        playerToken=queueHelper[0];
+        for(int i=0; i<4 ; i++)
+            queue[i]=queueHelper[i];
     }
 
     public void setCheckCount() {
-        if(checkCount<5)
+        if(checkCount<3)
             checkCount++;
     }
 
-    private int checkCount=0;
+
+
     public int getRound() {
         return round;
     }
@@ -45,8 +63,24 @@ public class Game {
             p2. setDomino(x,y,domino1,domino2,direction);
     }
 
+    public boolean canSetDomino(int x, int y, Direction direction){
+        if(playerToken==Token.P1)
+            return p1.canSetDomino(x,y,direction);
+        else if(playerToken==Token.P2)
+            return p2. canSetDomino(x,y,direction);
+        return false;
+    }
+
     public Game(){
         init();
+        initQueue();
+    }
+
+    private void initQueue() {
+        queue[0]=(Token.P1);
+        queue[1]=(Token.P2);
+        queue[2]=(Token.P1);
+        queue[3]=(Token.P2);
     }
 
     public Token getPlayerToken() {
@@ -59,6 +93,8 @@ public class Game {
         p1.setTexture("Player1.png");
         p2.setTexture("Player2.png");
         playerToken = Token.P1;
+        queue = new Token[4];
+        queueHelper = new Token[4];
     }
     public Texture getPlayerTexture() {
         if(playerToken==Token.P1)
@@ -74,9 +110,10 @@ public class Game {
         return p2.getPlayerImage();
     }
     public void changePlayer(){
-        if(playerToken == Token.P1)
-            playerToken=Token.P2;
-        else
-            playerToken=Token.P1;
+        if(checkCount<3) {
+            playerToken = queue[checkCount+1];
+        }
+//        else
+//            nextRound();
     }
 }

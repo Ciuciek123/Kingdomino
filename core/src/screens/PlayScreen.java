@@ -1,7 +1,6 @@
 package screens;
 
 import Engine.Game;
-import Engine.Player;
 import Engine.Token;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -54,7 +53,7 @@ public class PlayScreen extends AbstractScreen{
         nextRoundButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(game.getRound()<11&&game.getCheckCount()==4) {
+                if(game.getRound()<11&&game.getCheckCount()==3) {
                     game.nextRound();
                     generator.clearHelper();
                     generator.randomizeChooseArea(game.getRound()*4);
@@ -77,14 +76,14 @@ public class PlayScreen extends AbstractScreen{
             chooseButton[i].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(oneDomino.setIsChoose(game.getPlayerToken(), generator.getRandTiles(finalI))){
-                    //game.changePlayer();
-                    game.setCheckCount();
-                    dominoView.domino[generator.getRandTiles(finalI)].y=1;
-                    dominoView.domino[generator.getRandTiles(finalI)].x=1;
-                    actuallyChoose =generator.getRandTiles(finalI);
-                    dominoOnArea.add(actuallyChoose);
-                    oneDomino.setIsChoose(game.getPlayerToken(),actuallyChoose);
+                    if(oneDomino.isNOBODY(generator.getRandTiles(finalI))){
+                        game.setQueue(finalI);
+                        oneDomino.setWhoHave(game.getQueue(game.getCheckCount()), generator.getRandTiles(finalI));
+                        dominoView.domino[generator.getRandTiles(finalI)].y=1;
+                        dominoView.domino[generator.getRandTiles(finalI)].x=1;
+                        actuallyChoose = generator.getRandTiles(finalI);
+                        dominoOnArea.add(actuallyChoose);
+                        oneDomino.setWhoHave(game.getQueue(game.getCheckCount()),actuallyChoose);
                     }
                 };
             });
@@ -118,13 +117,13 @@ public class PlayScreen extends AbstractScreen{
 
     private void chooseArea(){
         for (int i = 0; i <4; i++) {
-            if(oneDomino.getIsChoose(generator.getRandTiles(i)) ==Token.NOBODY){
+            if(oneDomino.getWhoHave(generator.getRandTiles(i)) ==Token.NOBODY){
                 dominoView.domino[generator.getRandTiles(i)].y=600-i*150;
                 spriteBatch.draw(dominoView.domino[generator.getRandTiles(i)].getTexture(),dominoView.domino[generator.getRandTiles(i)].x,dominoView.domino[generator.getRandTiles(i)].y);
             }
-            if(oneDomino.getIsChoose(generator.getRandTiles(i)) == Token.P1)
+            if(oneDomino.getWhoHave(generator.getRandTiles(i)) == Token.P1)
                 spriteBatch.draw(game.getPlayer1Texture(),1200,600-i*150);
-            if(oneDomino.getIsChoose(generator.getRandTiles(i)) == Token.P2)
+            if(oneDomino.getWhoHave(generator.getRandTiles(i)) == Token.P2)
                 spriteBatch.draw(game.getPlayer2Texture(),1200,600-i*150);
         }
     }
@@ -136,9 +135,9 @@ public class PlayScreen extends AbstractScreen{
                     spriteBatch.draw(game.getPlayerTexture(),row*127,col*127);
             }
         for(int i=0; i<dominoOnArea.size();i++){
-            if(game.getPlayerToken()==Token.P1&&oneDomino.getIsChoose(dominoOnArea.get(i))==Token.P1)
+            if(game.getPlayerToken()==Token.P1&&oneDomino.getWhoHave(dominoOnArea.get(i))==Token.P1)
                  spriteBatch.draw(dominoView.domino[dominoOnArea.get(i)].getTexture(),dominoView.domino[dominoOnArea.get(i)].x,dominoView.domino[dominoOnArea.get(i)].y);
-            if(game.getPlayerToken()==Token.P2&&oneDomino.getIsChoose(dominoOnArea.get(i))==Token.P2)
+            if(game.getPlayerToken()==Token.P2&&oneDomino.getWhoHave(dominoOnArea.get(i))==Token.P2)
                 spriteBatch.draw(dominoView.domino[dominoOnArea.get(i)].getTexture(),dominoView.domino[dominoOnArea.get(i)].x,dominoView.domino[dominoOnArea.get(i)].y);
         }
 
@@ -171,8 +170,11 @@ public class PlayScreen extends AbstractScreen{
             dominoView.domino[actuallyChoose].x+=127;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setDomino((dominoView.domino[actuallyChoose].x-1)/127,(dominoView.domino[actuallyChoose].y-1)/127, oneDomino.getDomino(actuallyChoose,0), oneDomino.getDomino(actuallyChoose,1), oneDomino.getDirection(actuallyChoose));
-            game.changePlayer();
+            if((game.canSetDomino((dominoView.domino[actuallyChoose].x-1)/127,(dominoView.domino[actuallyChoose].y-1)/127, oneDomino.getDirection(actuallyChoose)))) {
+                game.setDomino((dominoView.domino[actuallyChoose].x - 1) / 127, (dominoView.domino[actuallyChoose].y - 1) / 127, oneDomino.getDomino(actuallyChoose, 0), oneDomino.getDomino(actuallyChoose, 1), oneDomino.getDirection(actuallyChoose));
+                game.changePlayer();
+                game.setCheckCount();
+            }
         }
     }
 

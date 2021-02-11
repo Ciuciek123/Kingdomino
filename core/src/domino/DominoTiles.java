@@ -7,11 +7,11 @@ public class DominoTiles {
     private Token[] whoHave;
     private Direction[] direction;
 
-    public Token getIsChoose(int index) {
+    public Token getWhoHave(int index) {
         return whoHave[index];
     }
 
-    public DominoTiles(){
+    public DominoTiles() {
         dominoTiles = new Domino[48][2];
         whoHave = new Token[48];
         direction = new Direction[48];
@@ -22,10 +22,11 @@ public class DominoTiles {
     }
 
     private void initDirection() {
-        for(int i=0;i<48;i++)
-            direction[i]=Direction.RIGHT;
+        for (int i = 0; i < 48; i++)
+            direction[i] = Direction.RIGHT;
     }
-    public Direction getDirection(int i){
+
+    public Direction getDirection(int i) {
         return direction[i];
     }
 
@@ -34,22 +35,18 @@ public class DominoTiles {
     }
 
     public void setDirection(int i) {
-        if(direction[i]==Direction.RIGHT)
-            direction[i]=Direction.DOWN;
-        else if(direction[i]==Direction.DOWN)
-            direction[i]=Direction.LEFT;
-        else if(direction[i]==Direction.LEFT)
-            direction[i]=Direction.UP;
-        else if(direction[i]==Direction.UP)
-            direction[i]=Direction.RIGHT;
+        if (direction[i] == Direction.RIGHT) direction[i] = Direction.DOWN;
+        else if (direction[i] == Direction.DOWN) direction[i] = Direction.LEFT;
+        else if (direction[i] == Direction.LEFT) direction[i] = Direction.UP;
+        else if (direction[i] == Direction.UP) direction[i] = Direction.RIGHT;
     }
 
     private void initWhoHave() {
-        for(int i=0;i<48;i++)
-            whoHave[i]=Token.NOBODY;
+        for (int i = 0; i < 48; i++)
+            whoHave[i] = Token.NOBODY;
     }
 
-    private void initDomino(){
+    private void initDomino() {
         //Domino nr.1
         dominoTiles[0][0] = new Domino(AreaType.FARMLAND, 0);
         dominoTiles[0][1] = new Domino(AreaType.FARMLAND, 0);
@@ -195,11 +192,15 @@ public class DominoTiles {
         dominoTiles[47][0] = new Domino(AreaType.FARMLAND, 0);
         dominoTiles[47][1] = new Domino(AreaType.MINE, 3);
     }
-    public boolean setIsChoose(Token p,int index){
-        if(whoHave[index]!=Token.P1&& whoHave[index]!=Token.P2){
-        whoHave[index]=p;
-        return true;
+
+    public boolean isNOBODY(int index) {
+        if (whoHave[index] == Token.NOBODY) {
+            return true;
         }
         return false;
+    }
+
+    public void setWhoHave(Token p, int index) {
+        whoHave[index] = p;
     }
 }

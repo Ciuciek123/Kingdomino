@@ -33,18 +33,30 @@ public class Player{
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.LEFT) {
             playerArea.setPlayerTable(x,y,domino1);
             playerArea.setPlayerTable(x-1,y,domino2);
+            playerArea.setIsEmpty(x,y);
+            playerArea.setIsEmpty(x-1,y);
         }
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.DOWN) {
             playerArea.setPlayerTable(x,y,domino1);
             playerArea.setPlayerTable(x,y-1,domino2);
+            playerArea.setIsEmpty(x,y);
+            playerArea.setIsEmpty(x,y-1);
         }
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.RIGHT) {
             playerArea.setPlayerTable(x,y,domino1);
             playerArea.setPlayerTable(x+1,y,domino2);
+            playerArea.setIsEmpty(x,y);
+            playerArea.setIsEmpty(x+1,y);
         }
         if(playerArea.isEmptyStatus(x,y,direction)&&direction==Direction.UP) {
             playerArea.setPlayerTable(x,y,domino1);
             playerArea.setPlayerTable(x,y+1,domino2);
+            playerArea.setIsEmpty(x,y);
+            playerArea.setIsEmpty(x,y+1);
         }
+    }
+
+    public boolean canSetDomino(int x, int y, Direction direction){
+        return playerArea.isEmptyStatus(x,y,direction);
     }
 }

@@ -43,5 +43,8 @@ public class PlayArea {
         if(direction==Direction.UP) return isEmpty[x][y]&&isEmpty[x][y+1];
         return false;
     }
+    public void setIsEmpty(int i, int j){
+        isEmpty[i][j]=false;
+    }
 
 }
