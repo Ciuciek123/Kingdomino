@@ -1,6 +1,7 @@
 package screens;
 
 import Engine.Game;
+import Engine.Player;
 import Engine.Token;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -18,6 +19,8 @@ import domino.DominoTiles;
 import domino.DominoTilesView;
 import Area.RandGenerator;
 
+import java.util.ArrayList;
+
 public class PlayScreen extends AbstractScreen{
     private RandGenerator generator = new RandGenerator();
     private Button exitButton;
@@ -30,7 +33,8 @@ public class PlayScreen extends AbstractScreen{
     private TextureRegion exitButtonTexture;
     private Texture area;
     private Game game;
-    private int actualyChoose;
+    private int actuallyChoose;
+    private ArrayList<Integer> dominoOnArea;
     public PlayScreen(Kingdomino game) {
         super(game);
         init();
@@ -74,11 +78,13 @@ public class PlayScreen extends AbstractScreen{
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if(oneDomino.setIsChoose(game.getPlayerToken(), generator.getRandTiles(finalI))){
-                    game.changePlayer();
+                    //game.changePlayer();
                     game.setCheckCount();
                     dominoView.domino[generator.getRandTiles(finalI)].y=1;
                     dominoView.domino[generator.getRandTiles(finalI)].x=1;
-                    actualyChoose=generator.getRandTiles(finalI);
+                    actuallyChoose =generator.getRandTiles(finalI);
+                    dominoOnArea.add(actuallyChoose);
+                    oneDomino.setIsChoose(game.getPlayerToken(),actuallyChoose);
                     }
                 };
             });
@@ -112,9 +118,10 @@ public class PlayScreen extends AbstractScreen{
 
     private void chooseArea(){
         for (int i = 0; i <4; i++) {
-            if(oneDomino.getIsChoose(generator.getRandTiles(i)) != Token.P1&&oneDomino.getIsChoose(generator.getRandTiles(i)) != Token.P2)
+            if(oneDomino.getIsChoose(generator.getRandTiles(i)) ==Token.NOBODY){
                 dominoView.domino[generator.getRandTiles(i)].y=600-i*150;
-            spriteBatch.draw(dominoView.domino[generator.getRandTiles(i)].getTexture(),dominoView.domino[generator.getRandTiles(i)].x,dominoView.domino[generator.getRandTiles(i)].y);
+                spriteBatch.draw(dominoView.domino[generator.getRandTiles(i)].getTexture(),dominoView.domino[generator.getRandTiles(i)].x,dominoView.domino[generator.getRandTiles(i)].y);
+            }
             if(oneDomino.getIsChoose(generator.getRandTiles(i)) == Token.P1)
                 spriteBatch.draw(game.getPlayer1Texture(),1200,600-i*150);
             if(oneDomino.getIsChoose(generator.getRandTiles(i)) == Token.P2)
@@ -128,9 +135,17 @@ public class PlayScreen extends AbstractScreen{
                 if(game.getField(row,col)== AreaType.PLAYER)
                     spriteBatch.draw(game.getPlayerTexture(),row*127,col*127);
             }
+        for(int i=0; i<dominoOnArea.size();i++){
+            if(game.getPlayerToken()==Token.P1&&oneDomino.getIsChoose(dominoOnArea.get(i))==Token.P1)
+                 spriteBatch.draw(dominoView.domino[dominoOnArea.get(i)].getTexture(),dominoView.domino[dominoOnArea.get(i)].x,dominoView.domino[dominoOnArea.get(i)].y);
+            if(game.getPlayerToken()==Token.P2&&oneDomino.getIsChoose(dominoOnArea.get(i))==Token.P2)
+                spriteBatch.draw(dominoView.domino[dominoOnArea.get(i)].getTexture(),dominoView.domino[dominoOnArea.get(i)].x,dominoView.domino[dominoOnArea.get(i)].y);
+        }
+
     }
 
     private void init() {
+        dominoOnArea = new ArrayList<>();
         game = new Game();
         oneDomino = new DominoTiles();
         dominoView = new DominoTilesView();
@@ -144,20 +159,20 @@ public class PlayScreen extends AbstractScreen{
 
     private void update(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
-            dominoView.domino[actualyChoose].y+=127;
+            dominoView.domino[actuallyChoose].y+=127;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)){
-            dominoView.domino[actualyChoose].x-=127;
+            dominoView.domino[actuallyChoose].x-=127;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.S)){
-            dominoView.domino[actualyChoose].y-=127;
+            dominoView.domino[actuallyChoose].y-=127;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.D)){
-            dominoView.domino[actualyChoose].x+=127;
+            dominoView.domino[actuallyChoose].x+=127;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            game.setDomino((dominoView.domino[actualyChoose].x-1)%127,(dominoView.domino[actualyChoose].y-1)%127, oneDomino.getDomino(actualyChoose,0), oneDomino.getDomino(actualyChoose,1), oneDomino.getDirection(actualyChoose));
-
+            game.setDomino((dominoView.domino[actuallyChoose].x-1)/127,(dominoView.domino[actuallyChoose].y-1)/127, oneDomino.getDomino(actuallyChoose,0), oneDomino.getDomino(actuallyChoose,1), oneDomino.getDirection(actuallyChoose));
+            game.changePlayer();
         }
     }
 
